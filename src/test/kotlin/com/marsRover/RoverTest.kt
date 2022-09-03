@@ -28,4 +28,15 @@ class RoverTest {
     fun `should rotate rover to right`(commands: String, position: String) {
         rover.execute(commands) shouldBe position
     }
+
+    @ParameterizedTest(name = "should rotate rover to {1} if command given is {0}")
+    @CsvSource(value = [
+        "L, 0:0:W",
+        "LL, 0:0:S",
+        "LLL, 0:0:E",
+        "LLLL, 0:0:N"
+    ])
+    fun `should rotate rover to left`(commands: String, position: String) {
+        rover.execute(commands) shouldBe position
+    }
 }
