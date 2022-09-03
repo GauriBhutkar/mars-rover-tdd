@@ -19,6 +19,8 @@ class Rover {
         var x = coordinate.x
         if(direction == Direction.NORTH) y = coordinate.y + 1
         if(direction == Direction.EAST) x = coordinate.x + 1
+        if(direction == Direction.WEST) x = coordinate.x - 1
+        if(direction == Direction.SOUTH) y = coordinate.y - 1
         return Coordinate(x, y)
     }
 }

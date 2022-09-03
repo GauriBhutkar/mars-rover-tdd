@@ -56,4 +56,21 @@ class RoverTest {
     fun `should move rover to right`(commands: String, position: String) {
         rover.execute(commands) shouldBe position
     }
+
+    @ParameterizedTest(name = "should move rover to {1} with command {0}")
+    @CsvSource(value = [
+        "LM, -1:0:W",
+        "ML, 0:1:W"
+    ])
+    fun `should move rover to left`(commands: String, position: String) {
+        rover.execute(commands) shouldBe position
+    }
+
+    @ParameterizedTest(name = "should move rover to {1} with command {0}")
+    @CsvSource(value = [
+        "LLM, 0:-1:S",
+    ])
+    fun `should move rover to bottom`(commands: String, position: String) {
+        rover.execute(commands) shouldBe position
+    }
 }
