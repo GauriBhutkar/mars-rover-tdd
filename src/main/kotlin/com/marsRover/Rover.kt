@@ -1,24 +1,40 @@
 package com.marsRover
 
 class Rover {
-    private var direction = "N"
+    private var eDirection = Direction.NORTH
     fun execute(commands: String): String {
-        for (command in commands.toCharArray()) {
-            if(command.toString() == "R") {
-                direction = rotateRight()
-            } else
-                direction = rotateLeft()
+        commands.toCharArray().forEach { command ->
+            eDirection = when (command) {
+                'R' -> eDirection.right()
+                else -> eDirection.left()
+            }
         }
-        return "0:0:$direction"
+        return "0:0:${eDirection.value}"
+    }
+}
+
+enum class Direction(val value: String, val left: String,val right: String) {
+    NORTH("N", "W", "E"),
+    WEST("W", "S", "N"),
+    SOUTH("S", "E", "W"),
+    EAST("E", "N", "S");
+
+    fun right() : Direction {
+        val nextDirection = this.right
+        return rotate(nextDirection)
     }
 
-    private fun rotateLeft() = if (direction == "N") "W"
-        else if (direction == "W") "S"
-        else if (direction == "S") "E"
-        else "N"
+    fun left() : Direction {
+        val nextDirection = this.left
+        return rotate(nextDirection)
+    }
 
-    private fun rotateRight() = if (direction == "N") "E"
-    else if (direction == "E") "S"
-    else if (direction == "S") "W"
-    else "N"
+    private fun rotate(nextDirection: String): Direction {
+        for (direction in values()) {
+            if (direction.value == nextDirection) return direction
+        }
+        throw InvalidDirectionException()
+    }
 }
+
+class InvalidDirectionException : RuntimeException()
