@@ -2,19 +2,21 @@ package com.marsRover
 
 class Rover {
     private var direction = Direction.NORTH
-    private var x = 0
-    private var y = 0
+    private var coordinate = Coordinate(0, 0)
     fun execute(commands: String): String {
         commands.toCharArray().forEach { command ->
-            direction = when (command) {
-                'R' -> direction.right()
-                'L' -> direction.left()
-                else -> {
-                    y++
-                    direction
-                }
+            when (command) {
+                'R' -> direction = direction.right()
+                'L' -> direction = direction.left()
+                else -> coordinate = move()
             }
         }
-        return "$x:$y:${direction.value()}"
+        return "${coordinate.x}:${coordinate.y}:${direction.value()}"
+    }
+
+    private fun move(): Coordinate {
+        var y = coordinate.y
+        if(direction == Direction.NORTH) y = coordinate.y + 1
+        return Coordinate(coordinate.x, y)
     }
 }
